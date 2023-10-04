@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - package-ecosystem: "gradle" # See documentation for possible values
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "weekly"
+    target-branch: "dev"
+    allow:
+      - dependency-name: "org.jetbrains:annotations"
+      - dependency-name: "org.projectlombok:lombok"
+      - dependency-name: "org.testng:testng"
