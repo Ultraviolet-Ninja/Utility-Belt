@@ -6,9 +6,10 @@ updates:
       interval: "weekly"
     target-branch: "dev"
     allow:
-      - dependency-name: "org.jetbrains:annotations"
-      - dependency-name: "org.projectlombok:lombok"
       - dependency-name: "org.testng:testng"
+      - dependency-name: "org.projectlombok:lombok"
+      - dependency-name: "org.jetbrains:annotations"
+      - dependency-name: "ch.qos.logback:logback-classic"
 
   - package-ecosystem: "github-actions"
     directory: "/"
