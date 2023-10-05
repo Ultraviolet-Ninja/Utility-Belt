@@ -35,6 +35,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -51,6 +52,9 @@ import java.util.concurrent.Future;
  * It utilizes a faster multiplication algorithm for those nasty big numbers!</p>
  *
  * <p>Get it today! Because performance matters (and we like Java).</p>
+ *
+ * Original Github
+ * <a href="https://github.com/bwakell/Huldra">...</a>
  *
  * @author Simon Klein
  * @author Jasmine-Jragon
@@ -174,6 +178,16 @@ public final class BigInt extends Number implements Comparable<BigInt> {
      */
     public BigInt(final String s) {
         assign(s);
+    }
+
+    /**
+     * Creates a BigInt from the given 'inferior' BigInteger.
+     *
+     * @param bigInteger A BigInteger representing the number in decimal.
+     * @complexity O(n ^ 2)
+     */
+    public BigInt(BigInteger bigInteger) {
+        assign(bigInteger.toString());
     }
 
     /**
