@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'com.github.breadmoirai.github-release' version '2.4.1'
 }
 
 sourceCompatibility = 11
@@ -40,4 +41,18 @@ jar {
 
 test {
     useTestNG()
+}
+
+tasks.register('releaseToGitHub') {
+    doFirst {
+        githubRelease.token = "${authToken}"
+    }
+    finalizedBy(tasks.named('githubRelease'))
+}
+
+githubRelease {
+    tagName = "${project.version}"
+    owner = 'Ultraviolet-Ninja'
+    String baseFilename = "${buildDir}/libs/${project.name}-${project.version}.jar"
+    releaseAssets(files(baseFilename))
 }

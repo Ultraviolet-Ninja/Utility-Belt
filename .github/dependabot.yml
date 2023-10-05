@@ -9,3 +9,11 @@ updates:
       - dependency-name: "org.jetbrains:annotations"
       - dependency-name: "org.projectlombok:lombok"
       - dependency-name: "org.testng:testng"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    allow:
+      - dependency-type: "all"
+    target-branch: "dev"
