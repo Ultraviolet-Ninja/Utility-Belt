@@ -21,11 +21,12 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.26'
+    compileOnly 'org.projectlombok:lombok:1.18.28'
 
-    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.28'
 
     implementation 'org.jetbrains:annotations:24.0.1'
+    implementation 'ch.qos.logback:logback-classic:1.4.8'
 
     testImplementation 'org.testng:testng:7.7.1'
 }
