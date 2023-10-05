@@ -57,7 +57,7 @@ public final class CustomBaseTranscoder {
     public String decrypt(String cipherText) {
         int degree = cipherText.length() - 1;
         BigInt output = new BigInt(0);
-        String searchString = String.valueOf(codexString);
+        String searchString = new String(codexString);
 
         for (char letter : cipherText.toCharArray()) {
             int value = searchString.indexOf(letter);
@@ -66,7 +66,7 @@ public final class CustomBaseTranscoder {
                 throw new IllegalArgumentException("Detected letter not in the codex");
             }
 
-            int decodedValue = (int) Math.pow(codexString.length, degree--) * value;
+            long decodedValue = (long) (Math.pow(codexString.length, degree--) * value);
             output.add(decodedValue);
         }
         return output.toString();

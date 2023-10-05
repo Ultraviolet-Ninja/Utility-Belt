@@ -25,8 +25,8 @@ public final class MathFunctions {
     }
 
     public static int digitalRoot(double number) {
-        number = Double.parseDouble(String.valueOf(number).replace(".", ""));
-        return digitalRoot((long) number);
+        long temp = Long.parseLong(String.valueOf(number).replace(".", ""));
+        return digitalRoot(temp);
     }
 
     public static boolean isAnInteger(double number) {
@@ -41,5 +41,16 @@ public final class MathFunctions {
     public static int negativeSafeModulo(int number, final int modulus) {
         while(number < 0) number += modulus;
         return number % modulus;
+    }
+
+    public static long reverseNumber(long number) {
+        long output = 0;
+        while (number > 0) {
+            output *= 10;
+            int temp = (int) (number % 10);
+            output += temp;
+            number /= 10;
+        }
+        return output;
     }
 }
