@@ -21,20 +21,21 @@ Nothing should be assumed about a position of the internal array that is not par
 Beware of signed extensions!
 
 Organization: Locality of reference
-Stuff that has something in common should generally be close to oneanother in the code.
+Stuff that has something in common should generally be close to one another in the code.
 So stuff regarding multiplication is bunched together.
 
 Coding style: Klein / As long as it looks good
 Generally brackets on new line, but exception can be made for small special cases, then they may be aligned on the same line.
 Never space after for or if or akin, it looks ugly.
-Bracketless loops may be on one line. For nested bracketless loops each should be indented on a new line.
+Bracket-less loops may be on one line. For nested bracket-less loops each should be indented on a new line.
 */
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -52,12 +53,19 @@ import java.util.concurrent.Future;
  * <p>Get it today! Because performance matters (and we like Java).</p>
  *
  * @author Simon Klein
+ * @author Jasmine-Jragon
  * @version 0.7
  */
+@SuppressWarnings({"DanglingJavadoc", "StatementWithEmptyBody", "DuplicatedCode", "SpellCheckingInspection"})
 public final class BigInt extends Number implements Comparable<BigInt> {
-    public static final BigInt MAX_LONG_VALUE = new BigInt(Long.MAX_VALUE);
-    static final BigInt TWO = new BigInt(2);
-    static final BigInt THREE = new BigInt(3);
+    public static final BigInt MAX_INT_VALUE = new BigInt(Integer.MAX_VALUE),
+            MAX_LONG_VALUE = new BigInt(Long.MAX_VALUE);
+
+    private static final Logger ERROR_LOG = LoggerFactory.getLogger(BigInt.class);
+
+    public static final BigInt ONE = new BigInt(1);
+    public static final BigInt TWO = new BigInt(2);
+    public static final BigInt THREE = new BigInt(3);
 
     /**
      * Used to cast a (base 2^32) digit to a long without getting unwanted sign extension.
@@ -364,7 +372,7 @@ public final class BigInt extends Number implements Comparable<BigInt> {
         if (j == 0) j = 9;
         j -= (sign - 1 >> 1);
 
-        dig[0] = parse(s, 0 - (sign - 1 >> 1), j);
+        dig[0] = parse(s, -(sign - 1 >> 1), j);
         for (len = 1; j < s.length; )
             mulAdd(1_000_000_000, parse(s, j, j += 9));
     }
@@ -373,7 +381,7 @@ public final class BigInt extends Number implements Comparable<BigInt> {
      * Assigns the given number to this BigInt object.
      *
      * @param s   The sign of the number.
-     * @param val The magnitude of the number (will be intepreted as unsigned).
+     * @param val The magnitude of the number (will be interpreted as unsigned).
      * @complexity O(1)
      */
     public void uassign(final int s, final int val) {
@@ -386,7 +394,7 @@ public final class BigInt extends Number implements Comparable<BigInt> {
      * Assigns the given number to this BigInt object.
      *
      * @param s   The sign of the number.
-     * @param val The magnitude of the number (will be intepreted as unsigned).
+     * @param val The magnitude of the number (will be interpreted as unsigned).
      * @complexity O(1)
      */
     public void uassign(final int s, final long val) {
@@ -449,6 +457,46 @@ public final class BigInt extends Number implements Comparable<BigInt> {
     }
 
     /**
+     * Tells whether this number is one or not.
+     *
+     * @return true if this number is zero, false otherwise
+     * @complexity O(1)
+     */
+    public boolean isOne() {
+        return len == 1 && dig[0] == 1 && sign > 0;
+    }
+
+    /**
+     * Tells whether this number is negative one or not.
+     *
+     * @return true if this number is zero, false otherwise
+     * @complexity O(1)
+     */
+    public boolean isNegativeOne() {
+        return len == 1 && dig[0] == 1 && sign < 0;
+    }
+
+    /**
+     * Tells whether this number is negative one or not.
+     *
+     * @return true if this number is zero, false otherwise
+     * @complexity O(1)
+     */
+    public boolean isTwo() {
+        return len == 1 && dig[0] == 2 && sign > 0;
+    }
+
+    @Contract(pure = true)
+    public static boolean isWithinLongRange(@NotNull BigInt bigInt) {
+        return bigInt.compareTo(MAX_LONG_VALUE) <= 0;
+    }
+
+    @Contract(pure = true)
+    public static boolean isWithinIntRange(@NotNull BigInt bigInt) {
+        return bigInt.compareTo(MAX_INT_VALUE) <= 0;
+    }
+
+    /**
      * Sets this number to zero.
      *
      * @complexity O(1)
@@ -483,7 +531,7 @@ public final class BigInt extends Number implements Comparable<BigInt> {
      * @return    -1 if the value of this number is less, 0 if it's equal, 1 if it's greater.
      * @complexity O(n)
      */
-    public int compareTo(final BigInt a) {
+    public int compareTo(final @NotNull BigInt a) {
         if (sign < 0) {
             if (a.sign < 0 || a.isZero()) return -compareAbsTo(a);
             return -1;
@@ -577,7 +625,7 @@ public final class BigInt extends Number implements Comparable<BigInt> {
      * {@inheritDoc}
      * Returns this BigInt as a {@code float}.
      *
-     * @return the most significant 24 bits in the mantissa (the highest order bit obviously being implicit),
+     * @return the most significant 24 bits in the mantissa (the highest-order bit obviously being implicit),
      * the exponent value which will be consistent for {@code BigInt}s up to 128 bits (should it not fit it'll be calculated modulo 256),
      * and the sign bit set if this number is negative.
      */
@@ -602,7 +650,7 @@ public final class BigInt extends Number implements Comparable<BigInt> {
      * {@inheritDoc}
      * Returns this BigInt as a {@code double}.
      *
-     * @return the most significant 53 bits in the mantissa (the highest order bit obviously being implicit),
+     * @return the most significant 53 bits in the mantissa (the highest-order bit obviously being implicit),
      * the exponent value which will be consistent for {@code BigInt}s up to 1024 bits (should it not fit it'll be calculated modulo 2048),
      * and the sign bit set if this number is negative.
      */
@@ -1166,6 +1214,37 @@ public final class BigInt extends Number implements Comparable<BigInt> {
         }
         return sign * udiv(div);
     }
+
+    public void pow(int exponent) throws ArithmeticException {
+        boolean isZero = isZero();
+        if (isZero && exponent == 0) {
+            throw new ArithmeticException("Zero to the power of zero is not allowed");
+        } else if (isZero && exponent < 0) {
+            throw new ArithmeticException("Infinity cannot be represented");
+        } else if (exponent < 0) {
+            throw new ArithmeticException("Negative exponents cannot be represented as an integer");
+        } else if (exponent == 0 || (isNegativeOne() && exponent % 2 == 0)) {
+            assign(1);
+        } else if (isTwo()) {
+            shiftLeft(exponent - 1);
+        } else if (!isZero && !isOne()) {
+            var copy = this.copy();
+            handlePositiveExponent(exponent, copy);
+        }
+    }
+
+    private void handlePositiveExponent(int exponent, BigInt copy) {
+        if (isWithinLongRange(copy)) {
+            long value = copy.longValue();
+            while (exponent-- > 1) {
+                mul(value);
+            }
+        } else {
+            while (exponent-- > 1) {
+                karatsuba(copy);
+            }
+        }
+    }
     /*** </Signed Small Num> ***/
 
     /*** <Big Num Helper> ***/
@@ -1323,7 +1402,7 @@ public final class BigInt extends Number implements Comparable<BigInt> {
 
     /**
      * Multiplies this number by the given BigInt.
-     * Chooses the appropriate algorithm with regards to the size of the numbers.
+     * Chooses the appropriate algorithm in regard to the size of the numbers.
      *
      * @param mul The number to multiply with.
      * @complexity O(n ^ 2) - O(n log n)
@@ -1415,8 +1494,8 @@ public final class BigInt extends Number implements Comparable<BigInt> {
             final ExecutorService pool = Executors.newFixedThreadPool(12);
             try {
                 res = pmul(dig, mul.dig, 0, mlen, 1, pool);
-            } catch (Exception e) {
-                System.err.println(e);
+            } catch (ExecutionException | InterruptedException e) {
+                ERROR_LOG.error("", e);
             }
             pool.shutdown();
         }
@@ -1435,7 +1514,7 @@ public final class BigInt extends Number implements Comparable<BigInt> {
      * @param ulen The length of the first array.
      * @param v    The second magnitude array.
      * @param vlen The length of the second array.
-     * @return A ulen+vlen length array containing the result.
+     * @return An array length of size ulen+vlen containing the result.
      * @complexity O(n ^ 2)
      */
     private static int[] naiveMul(final int[] u, final int ulen, final int[] v, final int vlen) {
@@ -1475,7 +1554,7 @@ public final class BigInt extends Number implements Comparable<BigInt> {
         // y = y1*B^m + y0
         // xy = z2*B^2m + z1*B^m + z0
         // z2 = x1*y1, z0 = x0*y0, z1 = (x1+x0)(y1+y0)-z2-z0
-        if (n <= 32) //Basecase
+        if (n <= 32) //Base case
         {
             final int[] z = new int[2 * n];
             long carry = 0, tmp, xi = x[off] & mask;
@@ -1551,7 +1630,7 @@ public final class BigInt extends Number implements Comparable<BigInt> {
 
     /**
      * Multiplies partial magnitude arrays x[off..off+n) and y[off...off+n) and returns the result.
-     * Algorithm: Parallell Karatsuba
+     * Algorithm: Parallel Karatsuba
      *
      * @param x    The first magnitude array.
      * @param y    The second magnitude array.
@@ -1559,10 +1638,13 @@ public final class BigInt extends Number implements Comparable<BigInt> {
      * @param n    The length of each of the two partial arrays.
      * @param lim  The recursion depth up until which we will spawn new threads.
      * @param pool Where spawn threads will be added and executed.
-     * @throws Exception    Various thread related exceptions.
+     * @throws ExecutionException if the computation threw an
+     * exception
+     * @throws InterruptedException if the current thread was interrupted
      * @complexity O(n ^ 1.585)
      */
-    private static int[] pmul(final int[] x, final int[] y, final int off, final int n, final int lim, final ExecutorService pool) throws ExecutionException, InterruptedException {
+    private static int[] pmul(final int[] x, final int[] y, final int off, final int n, final int lim, final ExecutorService pool)
+            throws ExecutionException, InterruptedException {
         final int b = n >>> 1;
 
         final Future<int[]> left = pool.submit(() -> lim == 0 ? kmul(x, y, off, b) : pmul(x, y, off, b, lim - 1, pool));
@@ -1587,12 +1669,8 @@ public final class BigInt extends Number implements Comparable<BigInt> {
         if ((n & 1) != 0) y2[b] = y[off + b + b];
         if (carry != 0) if (++y2[b] == 0) ++y2[b + 1];
 
-        final Future<int[]> mid = pool.submit(new Callable<int[]>() {
-            public int[] call() throws Exception {
-                return lim == 0 ? kmul(x2, y2, 0, n - b + (x2[n - b] != 0 || y2[n - b] != 0 ? 1 : 0)) :
-                        pmul(x2, y2, 0, n - b + (x2[n - b] != 0 || y2[n - b] != 0 ? 1 : 0), lim - 1, pool);
-            }
-        });
+        final Future<int[]> mid = pool.submit(() -> lim == 0 ? kmul(x2, y2, 0, n - b + (x2[n - b] != 0 || y2[n - b] != 0 ? 1 : 0)) :
+                pmul(x2, y2, 0, n - b + (x2[n - b] != 0 || y2[n - b] != 0 ? 1 : 0), lim - 1, pool));
 
         final int[] z = new int[2 * n];
 
@@ -1828,11 +1906,11 @@ public final class BigInt extends Number implements Comparable<BigInt> {
         }
 
         if (s > 0) {
-            //Unnormalize v[].
+            //Un-normalize v[].
             for (i = 0; i < n - 1; i++) v[i] = v[i] >>> s | v[i + 1] << 32 - s;
             v[n - 1] >>>= s;
 
-            //Unnormalize u[].
+            //Un-normalize u[].
             for (i = 0; i < m; i++) u[i] = u[i] >>> s | u[i + 1] << 32 - s;
             u[m] >>>= s;
         }
@@ -1896,7 +1974,7 @@ public final class BigInt extends Number implements Comparable<BigInt> {
 
     /*** <BitOperations> ***/
     // Negative numbers are imagined in their two's complement form with infinite sign extension.
-    // This has no effect on bit shifts, but makes implementaion of other bit operations a bit
+    // This has no effect on bit shifts, but makes implementation of other bit operations a bit
     // tricky if one wants them to be as efficient as possible.
 
     /**
@@ -2346,7 +2424,7 @@ public final class BigInt extends Number implements Comparable<BigInt> {
     }
 
     /**
-     * Bitwise-xors this number with the given number, i.e. this ^= mask.
+     * Bitwise-xor this number with the given number, i.e. this ^= mask.
      *
      * @param mask The number to bitwise-xor with.
      * @complexity O(n)
@@ -2458,7 +2536,7 @@ public final class BigInt extends Number implements Comparable<BigInt> {
     }
 
     /**
-     * Bitwise-and-nots this number with the given number, i.e. this &= ~mask.
+     * Bitwise-and-not this number with the given number, i.e. this &= ~mask.
      *
      * @param mask The number to bitwise-and-not with.
      * @complexity O(n)
