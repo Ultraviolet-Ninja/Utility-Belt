@@ -15,7 +15,6 @@ public class MathFunctionsTest {
         };
     }
 
-
     @Test(dataProvider = "perfectSquareTestProvider")
     public void perfectSquareTest(long potentialSquare, boolean expected) {
         if (expected) {
