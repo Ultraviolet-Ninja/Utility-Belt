@@ -5,21 +5,25 @@ import static java.lang.Math.round;
 
 public final class MathFunctions {
     public static boolean isPerfectSquare(long num) {
+        if (num <= 0) {
+            return false;
+        }
         double root = Math.sqrt(num);
-        return (root - Math.floor(root)) == 0;
+        return (root - Math.floor(root)) == 0.0;
     }
 
     public static int digitalRoot(long number) {
+        long temp = Math.abs(number);
         long root = 0;
 
-        while (number > 0 || root > 9) {
-            if (number == 0) {
-                number = root;
+        while (temp > 0 || root > 9) {
+            if (temp == 0) {
+                temp = root;
                 root = 0;
             }
 
-            root += number % 10;
-            number /= 10;
+            root += temp % 10;
+            temp /= 10;
         }
         return (int) root;
     }
