@@ -9,7 +9,7 @@ public final class EncodingScheme {
     public static final String EXTENDED_ASCII_CODEX_STRING;
 
     static {
-        String codexPrefix =
+        var codexPrefix =
                 "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;<>=?{}()[]`|~\"'!@#$%&*+,-./\\^_";
 
         var codexArray = codexPrefix.toCharArray();
