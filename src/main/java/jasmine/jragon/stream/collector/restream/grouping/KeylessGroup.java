@@ -45,7 +45,8 @@ public final class KeylessGroup<T, K, V, C extends Collection<V>>
 
     @Override
     public Function<Map<K, C>, Stream<C>> finisher() {
-        return ignored -> runningGroupStream.build();
+        return ignored -> runningGroupStream.build()
+                .filter(collection -> !collection.isEmpty());
     }
 
     @Contract("_ -> new")
