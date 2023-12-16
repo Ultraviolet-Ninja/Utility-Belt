@@ -1,5 +1,7 @@
 package jasmine.jragon.math;
 
+import java.util.stream.LongStream;
+
 import static java.lang.Math.pow;
 import static java.lang.Math.round;
 
@@ -56,5 +58,38 @@ public final class MathFunctions {
             number /= 10;
         }
         return output;
+    }
+
+    //Calculating combinations that involve 2 elements from a given set
+    public static long calculateCombinatorialSize(int n) {
+        return Math.abs(factorial(n) / (factorial(n - 2) << 1));
+    }
+
+    public static long calculateCombinatorialSize(int n, int r) {
+        if (r == 2)
+            return calculateCombinatorialSize(n);
+        return Math.abs(factorial(n) / (factorial(n - r) * factorial(r)));
+    }
+
+    public static long calculatePermutationSize(int n, int r) {
+        if (r == 2)
+            return calculateCombinatorialSize(n);
+        return Math.abs(factorial(n) / (factorial(n - r)));
+    }
+
+    public static long factorial(int n) {
+        return LongStream.range(2, n)
+                .reduce((a, b) -> a * b)
+                .orElse(1);
+    }
+
+    public static BigInt factorialBigInt(int n) {
+        return LongStream.range(2, n)
+                .mapToObj(BigInt::of)
+                .reduce((l, r) -> {
+                    l.mul(r);
+                    return l;
+                })
+                .orElse(BigInt.ONE);
     }
 }
