@@ -11,7 +11,7 @@ import java.util.function.BinaryOperator;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-public interface Group<T, K, V, C extends Collection<V>, S>
+public interface KeyGroup<T, K, V, C extends Collection<V>, S>
         extends CustomCollector<T, Map<K, C>, Stream<S>> {
     @Contract(pure = true)
     @Override

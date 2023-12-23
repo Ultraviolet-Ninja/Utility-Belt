@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 
 @RequiredArgsConstructor(staticName = "provide")
 public final class KeylessGroup<T, K, V, C extends Collection<V>>
-        implements Group<T, K, V, C, C> {
+        implements KeyGroup<T, K, V, C, C> {
     @NonNull
     private final Function<T, K> groupKeyMapper;
     @NonNull

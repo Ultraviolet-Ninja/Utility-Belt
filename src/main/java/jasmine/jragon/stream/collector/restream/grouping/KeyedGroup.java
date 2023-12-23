@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 
 @RequiredArgsConstructor(staticName = "provide")
 public final class KeyedGroup<T, K, V, C extends Collection<V>>
-        implements Group<T, K, V, C, Duo<K, C>> {
+        implements KeyGroup<T, K, V, C, Duo<K, C>> {
     @NonNull
     private final Function<T, K> groupKeyMapper;
     @NonNull
