@@ -1,4 +1,4 @@
-package jasmine.jragon.heap;
+package jasmine.jragon.heap.algo;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

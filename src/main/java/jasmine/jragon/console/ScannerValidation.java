@@ -1,7 +1,11 @@
 package jasmine.jragon.console;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.util.Scanner;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ScannerValidation {
     public static int validateInt(Scanner in) {
         while (!in.hasNextInt()) {

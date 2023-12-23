@@ -12,11 +12,11 @@ public final class TimeFormat {
         long millis = nanos.toMillis() % 1000;
 
         if (hours != 0) {
-            return String.format("%d:%d:%d.%d", hours, minutes, seconds, millis);
+            return String.format("%02d:%02d:%02d.%d", hours, minutes, seconds, millis);
         } else if (minutes != 0) {
-            return String.format("%d:%d.%d", minutes, seconds, millis);
+            return String.format("%02d:%02d.%d", minutes, seconds, millis);
         }
 
-        return String.format("%d.%d", seconds, millis);
+        return String.format("%02d.%03d sec", seconds, millis);
     }
 }
