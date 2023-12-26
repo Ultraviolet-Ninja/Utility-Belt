@@ -16,6 +16,12 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
+/**
+ * A.k.a. Fixed-sliding windows proposed in JDK 22 - JEP 461
+ *
+ * @param <T> The incoming type
+ * @param <C> The collection used to store the incoming type
+ */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class SizedGroup<T, C extends Collection<T>>
         implements CustomCollector<T, Stream.Builder<C>, Stream<C>> {
