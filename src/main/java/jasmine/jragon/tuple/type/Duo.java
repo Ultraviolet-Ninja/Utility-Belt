@@ -47,4 +47,9 @@ public final class Duo<A, B> {
     public String toString() {
         return String.format("First Element %s%nSecond Element %s%n", first, second);
     }
+
+    @Contract("_, _ -> new")
+    public static <T, U> @NotNull Duo<T, U> of(T first, U second) {
+        return new Duo<>(first, second);
+    }
 }
