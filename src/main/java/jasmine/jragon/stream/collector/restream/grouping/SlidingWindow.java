@@ -58,29 +58,29 @@ public final class SlidingWindow<T> implements StreamCheckpoint<T, List<T>> {
 
     @Contract("_ -> new")
     public static <T> @NotNull SlidingWindow<T> allElements(@Range(from = 2, to = Integer.MAX_VALUE) int windowSize) {
-        checkNonPositiveSize(windowSize);
+        validateWindowSize(windowSize);
         return new SlidingWindow<>(windowSize, true, true);
     }
 
     @Contract("_ -> new")
     public static <T> @NotNull SlidingWindow<T> onlyWindowSizeElements(@Range(from = 2, to = Integer.MAX_VALUE) int windowSize) {
-        checkNonPositiveSize(windowSize);
+        validateWindowSize(windowSize);
         return new SlidingWindow<>(windowSize, false, false);
     }
 
     @Contract("_ -> new")
     public static <T> @NotNull SlidingWindow<T> frontLoadedElements(@Range(from = 2, to = Integer.MAX_VALUE) int windowSize) {
-        checkNonPositiveSize(windowSize);
+        validateWindowSize(windowSize);
         return new SlidingWindow<>(windowSize, true, false);
     }
 
     @Contract("_ -> new")
     public static <T> @NotNull SlidingWindow<T> backLoadedElements(@Range(from = 2, to = Integer.MAX_VALUE) int windowSize) {
-        checkNonPositiveSize(windowSize);
+        validateWindowSize(windowSize);
         return new SlidingWindow<>(windowSize, false, true);
     }
 
-    private static void checkNonPositiveSize(int windowSize) {
+    private static void validateWindowSize(int windowSize) {
         if (windowSize < 2) {
             throw new IllegalArgumentException("Window size must be at least 2");
         }
