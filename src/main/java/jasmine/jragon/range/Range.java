@@ -1,5 +1,7 @@
 package jasmine.jragon.range;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Iterator;
 import java.util.PrimitiveIterator;
 import java.util.Spliterator;
@@ -67,7 +69,7 @@ public final class Range implements Iterable<Integer>, IRange {
     }
 
     @Override
-    public Iterator<Integer> iterator() {
+    public @NotNull Iterator<Integer> iterator() {
         return new RangeIterator(this);
     }
 
