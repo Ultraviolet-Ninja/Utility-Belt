@@ -46,8 +46,25 @@ public final class Trio<A, B, C> {
         return reduceFunction.apply(first, second, third);
     }
 
+    public Duo<B, C> removeFirst() {
+        return new Duo<>(second, third);
+    }
+
+    public Duo<A, C> removeSecond() {
+        return new Duo<>(first, third);
+    }
+
+    public Duo<A, B> removeThird() {
+        return new Duo<>(first, second);
+    }
+
     @Override
     public String toString() {
         return String.format("First Element %s%nSecond Element %s%nThird Element %s%n", first, second, third);
+    }
+
+    @Contract("_, _, _ -> new")
+    public static <T, U, V> @NotNull Trio<T, U, V> of(T first, U second, V third) {
+        return new Trio<>(first, second, third);
     }
 }
