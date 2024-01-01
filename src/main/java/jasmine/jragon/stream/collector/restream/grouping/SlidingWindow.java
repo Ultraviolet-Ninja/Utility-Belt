@@ -1,5 +1,6 @@
 package jasmine.jragon.stream.collector.restream.grouping;
 
+import jasmine.jragon.stream.collector.restream.StreamCheckpoint;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.Contract;
@@ -15,7 +16,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public final class SlidingWindow<T> implements Window<T, List<T>> {
+public final class SlidingWindow<T> implements StreamCheckpoint<T, List<T>> {
     private final int windowSize;
     private final boolean isFrontLoaded;
     private final boolean isBackLoaded;

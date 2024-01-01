@@ -1,5 +1,6 @@
 package jasmine.jragon.stream.collector.restream.grouping;
 
+import jasmine.jragon.stream.collector.restream.StreamCheckpoint;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.Contract;
@@ -20,7 +21,7 @@ import java.util.stream.Stream;
  * @param <C> The collection used to store the incoming type
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public final class FixedWindow<T, C extends Collection<T>> implements Window<T, C> {
+public final class FixedWindow<T, C extends Collection<T>> implements StreamCheckpoint<T, C> {
     private final int groupSize;
     private final Supplier<C> collectionSupplier;
 
