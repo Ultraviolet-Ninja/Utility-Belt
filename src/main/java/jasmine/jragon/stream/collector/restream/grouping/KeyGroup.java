@@ -11,8 +11,9 @@ import java.util.function.BinaryOperator;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-public interface KeyGroup<T, K, V, C extends Collection<V>, S>
-        extends CustomCollector<T, Map<K, C>, Stream<S>> {
+public sealed interface KeyGroup<T, K, V, C extends Collection<V>, S>
+        extends CustomCollector<T, Map<K, C>, Stream<S>>
+        permits KeyedGroup, KeylessGroup {
     @Contract(pure = true)
     @Override
     default Supplier<Map<K, C>> supplier() {
