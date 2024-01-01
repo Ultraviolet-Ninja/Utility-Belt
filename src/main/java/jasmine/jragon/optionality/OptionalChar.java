@@ -108,8 +108,7 @@ public final class OptionalChar {
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
-        } else if (obj instanceof OptionalChar) {
-            var other = (OptionalChar) obj;
+        } else if (obj instanceof OptionalChar other) {
             return this.isPresent == other.isPresent
                     && this.value == other.value;
         }

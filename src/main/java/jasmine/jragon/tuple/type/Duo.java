@@ -1,21 +1,12 @@
 package jasmine.jragon.tuple.type;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-@Getter
-@RequiredArgsConstructor
-@EqualsAndHashCode(doNotUseGetters = true, cacheStrategy = EqualsAndHashCode.CacheStrategy.LAZY)
-public final class Duo<A, B> {
-    private final A first;
-    private final B second;
-
+public record Duo<A, B>(A first, B second) {
     @Contract("_ -> new")
     public <C> @NotNull Duo<C, B> mapFirst(@NotNull Function<A, C> mapper) {
         return new Duo<>(mapper.apply(first), second);

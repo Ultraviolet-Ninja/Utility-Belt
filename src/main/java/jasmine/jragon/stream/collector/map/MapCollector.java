@@ -9,7 +9,8 @@ import java.util.Set;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 
-public interface MapCollector<T, K, V, M extends Map<K, V>> extends CustomCollector<T, M, M> {
+public sealed interface MapCollector<T, K, V, M extends Map<K, V>> extends CustomCollector<T, M, M>
+        permits EnumMapCollector, LinkedHashMapCollector, TreeMapCollector {
     @Override
     default Function<M, M> finisher() {
         return Function.identity();

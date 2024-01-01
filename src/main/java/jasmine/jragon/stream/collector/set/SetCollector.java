@@ -9,7 +9,8 @@ import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 
-public interface SetCollector<K, S extends Set<K>> extends CustomCollector<K, S, S> {
+public sealed interface SetCollector<K, S extends Set<K>> extends CustomCollector<K, S, S>
+        permits EnumSetCollector, LinkedHashSetCollector, TreeSetCollector {
     @Override
     default Function<S, S> finisher() {
         return Function.identity();

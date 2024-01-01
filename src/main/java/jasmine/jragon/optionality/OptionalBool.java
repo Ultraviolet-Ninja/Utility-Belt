@@ -95,8 +95,7 @@ public final class OptionalBool {
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
-        } else if (obj instanceof OptionalBool) {
-            var other = (OptionalBool) obj;
+        } else if (obj instanceof OptionalBool other) {
             return this.bits == other.bits;
         }
         return false;

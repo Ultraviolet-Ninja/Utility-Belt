@@ -1,22 +1,12 @@
 package jasmine.jragon.tuple.type;
 
 import jasmine.jragon.function.TriFunction;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
-@Getter
-@RequiredArgsConstructor
-@EqualsAndHashCode(doNotUseGetters = true, cacheStrategy = EqualsAndHashCode.CacheStrategy.LAZY)
-public final class Trio<A, B, C> {
-    private final A first;
-    private final B second;
-    private final C third;
-
+public record Trio<A, B, C>(A first, B second, C third) {
     @Contract("_ -> new")
     public <D> @NotNull Trio<D, B, C> mapFirst(@NotNull Function<A, D> mapper) {
         return new Trio<>(mapper.apply(first), second, third);

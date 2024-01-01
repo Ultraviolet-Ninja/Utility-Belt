@@ -53,7 +53,7 @@ public final class KeyedGroup<T, K, V, C extends Collection<V>>
     }
 
     private static <K, C extends Collection<?>> boolean hasElements(Duo<K, C> duo) {
-        return !duo.getSecond().isEmpty();
+        return !duo.second().isEmpty();
     }
 
     @Contract("_ -> new")

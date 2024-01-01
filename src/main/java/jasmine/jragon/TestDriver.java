@@ -13,9 +13,9 @@ public class TestDriver {
         System.out.println(
                 t1.union(t2)
                         .enumerate()
-                        .collect(KeyedGroup.provide(e -> e.getIndex() % 3))
-                        .peek(e -> System.out.println(e.getFirst()))
-                        .map(Duo::getSecond)
+                        .collect(KeyedGroup.provide(e -> e.index() % 3))
+                        .peek(e -> System.out.println(e.first()))
+                        .map(Duo::second)
                         .map(String::valueOf)
                         .collect(Collectors.joining("\n"))
         );
