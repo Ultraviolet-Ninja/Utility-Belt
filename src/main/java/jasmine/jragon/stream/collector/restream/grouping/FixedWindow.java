@@ -42,24 +42,34 @@ public final class FixedWindow<T, C extends Collection<T>> implements StreamChec
 
     @Contract("_ -> new")
     public static <T> @NotNull FixedWindow<T, List<T>> group(int groupSize) {
+        checkNonPositiveSize(groupSize);
         return new FixedWindow<>(groupSize, ArrayList::new);
     }
 
     @Contract("_, _ -> new")
     public static <T, C extends List<T>> @NotNull FixedWindow<T, C> groupToLists(int groupSize,
                                                                                  Supplier<C> listSupplier) {
+        checkNonPositiveSize(groupSize);
         return new FixedWindow<>(groupSize, listSupplier);
     }
 
     @Contract("_, _ -> new")
     public static <T, C extends Set<T>> @NotNull FixedWindow<T, C> groupToSets(int groupSize,
                                                                                Supplier<C> setSupplier) {
+        checkNonPositiveSize(groupSize);
         return new FixedWindow<>(groupSize, setSupplier);
     }
 
     @Contract("_, _ -> new")
     public static <T, C extends Collection<T>> @NotNull FixedWindow<T, C> groupToSpecified(int groupSize,
                                                                                            Supplier<C> collectionSupplier) {
+        checkNonPositiveSize(groupSize);
         return new FixedWindow<>(groupSize, collectionSupplier);
+    }
+
+    private static void checkNonPositiveSize(int windowSize) {
+        if (windowSize < 2) {
+            throw new IllegalArgumentException("Window size must be at least 2");
+        }
     }
 }
