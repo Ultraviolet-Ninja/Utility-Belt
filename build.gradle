@@ -6,11 +6,11 @@ plugins {
 
 mainClassName = 'jasmine.jragon.TestDriver'
 
-sourceCompatibility = 11
-targetCompatibility = 11
+sourceCompatibility = 17
+targetCompatibility = 17
 
 group = 'jasmine.jragon'
-version = '1.2'
+version = '1.2v17'
 
 compileJava {
     options.encoding("UTF-8")
