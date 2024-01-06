@@ -17,6 +17,11 @@ public record Trio<A, B, C>(A first, B second, C third) {
         return new Trio<>(first, mapper.apply(second), third);
     }
 
+    @Contract("_ -> new")
+    public <D> @NotNull Trio<A, B, D> mapThird(@NotNull Function<C, D> mapper) {
+        return new Trio<>(first, second, mapper.apply(third));
+    }
+
     @Contract("_, _, _ -> new")
     public <D, E, F> @NotNull Trio<D, E, F> map(@NotNull Function<A, D> firstMapper,
                                                 @NotNull Function<B, E> secondMapper,
