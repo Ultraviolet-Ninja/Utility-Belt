@@ -10,7 +10,7 @@ sourceCompatibility = 17
 targetCompatibility = 17
 
 group = 'jasmine.jragon'
-version = '1.2v17'
+version = '1.2.1v17'
 
 compileJava {
     options.encoding("UTF-8")
