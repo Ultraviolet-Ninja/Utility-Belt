@@ -48,6 +48,16 @@ public record Duo<A, B>(A first, B second) {
     }
 
     @Contract("_ -> new")
+    public <C> @NotNull Trio<C, A, B> addToFirst(C head) {
+        return new Trio<>(head, this.first, this.second);
+    }
+
+    @Contract("_ -> new")
+    public <C> @NotNull Trio<A, C, B> addToSecond(C middle) {
+        return new Trio<>(this.first, middle, this.second);
+    }
+
+    @Contract("_ -> new")
     public <C> @NotNull Trio<A, B, C> add(C third) {
         return new Trio<>(this.first, this.second, third);
     }
