@@ -30,7 +30,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.32'
 
     implementation 'org.jetbrains:annotations:24.1.0'
-    implementation 'ch.qos.logback:logback-classic:1.5.3'
+    implementation 'ch.qos.logback:logback-classic:1.5.5'
 
     testImplementation 'org.testng:testng:7.10.0'
 }
