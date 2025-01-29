@@ -1,6 +1,7 @@
 package jasmine.jragon.stream.builder;
 
 import lombok.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.stream.Stream;
@@ -14,7 +15,7 @@ public final class ExtendedStreamBuilder<E> implements Stream.Builder<E> {
     }
 
     @Override
-    public Stream<E> build() {
+    public @NotNull Stream<E> build() {
         return internalBuilder.build();
     }
 
@@ -24,7 +25,7 @@ public final class ExtendedStreamBuilder<E> implements Stream.Builder<E> {
     }
 
     @Override
-    public ExtendedStreamBuilder<E> add(E e) {
+    public @NotNull ExtendedStreamBuilder<E> add(E e) {
         internalBuilder.accept(e);
         return this;
     }
