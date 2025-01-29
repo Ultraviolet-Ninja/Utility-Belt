@@ -8,6 +8,26 @@ import java.util.function.Function;
 
 public record Trio<A, B, C>(A first, B second, C third) {
     @Contract("_ -> new")
+    public <D> @NotNull Quad<D, A, B, C> addFirst(D newFirst) {
+        return new Quad<>(newFirst, this.first, this.second, third);
+    }
+
+    @Contract("_ -> new")
+    public <D> @NotNull Quad<A, D, B, C> addSecond(D newSecond) {
+        return new Quad<>(this.first, newSecond, this.second, third);
+    }
+
+    @Contract("_ -> new")
+    public <D> @NotNull Quad<A, B, D, C> addThird(D newThird) {
+        return new Quad<>(this.first, this.second, newThird, this.third);
+    }
+
+    @Contract("_ -> new")
+    public <D> @NotNull Quad<A, B, C, D> add(D fourth) {
+        return new Quad<>(this.first, this.second, this.third, fourth);
+    }
+
+    @Contract("_ -> new")
     public <D> @NotNull Trio<D, B, C> mapFirst(@NotNull Function<A, D> mapper) {
         return new Trio<>(mapper.apply(first), second, third);
     }
@@ -15,6 +35,11 @@ public record Trio<A, B, C>(A first, B second, C third) {
     @Contract("_ -> new")
     public <D> @NotNull Trio<A, D, C> mapSecond(@NotNull Function<B, D> mapper) {
         return new Trio<>(first, mapper.apply(second), third);
+    }
+
+    @Contract("_ -> new")
+    public <D> @NotNull Trio<A, B, D> mapThird(@NotNull Function<C, D> mapper) {
+        return new Trio<>(first, second, mapper.apply(third));
     }
 
     @Contract("_, _, _ -> new")

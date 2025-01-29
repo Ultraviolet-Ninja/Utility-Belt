@@ -1,5 +1,7 @@
 package jasmine.jragon.range;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Iterator;
 import java.util.PrimitiveIterator;
 import java.util.Spliterator;
@@ -67,7 +69,7 @@ public final class DoubleRange implements Iterable<Double>, IRange {
     }
 
     @Override
-    public Iterator<Double> iterator() {
+    public @NotNull Iterator<Double> iterator() {
         return new DoubleRangeIterator(this);
     }
 
