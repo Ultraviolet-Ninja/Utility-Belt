@@ -13,4 +13,3 @@ public final class IntermediateUtils {
         return optional.stream();
     }
 }
-
