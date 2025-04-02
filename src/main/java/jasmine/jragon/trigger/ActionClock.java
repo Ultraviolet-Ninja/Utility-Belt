@@ -2,7 +2,7 @@ package jasmine.jragon.trigger;
 
 import java.util.function.Consumer;
 
-public sealed abstract class ActionClock<E> permits ConcurrentClock, SimpleClock {
+public abstract class ActionClock<E> {
     protected final int threshold;
     protected final E target;
     protected final Consumer<E> action;
