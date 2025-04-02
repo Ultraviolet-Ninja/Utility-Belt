@@ -1,5 +1,6 @@
 package jasmine.jragon.tuple.type;
 
+import jasmine.jragon.function.TriConsumer;
 import jasmine.jragon.function.TriFunction;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -44,6 +45,10 @@ public final class Trio<A, B, C> {
 
     public <T, U> Duo<T, U> pairDown(@NotNull TriFunction<A, B, C, Duo<T, U>> reduceFunction) {
         return reduceFunction.apply(first, second, third);
+    }
+
+    public void sendTo(@NotNull TriConsumer<? super A, ? super B, ? super C> action) {
+        action.accept(first, second, third);
     }
 
     public Duo<B, C> removeFirst() {
