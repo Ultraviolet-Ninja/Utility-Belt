@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.AbstractMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -64,6 +65,10 @@ public record Duo<A, B>(A first, B second) {
 
     public <T> T reduce(@NotNull BiFunction<A, B, T> reducer) {
         return reducer.apply(first, second);
+    }
+
+    public void sendTo(@NotNull BiConsumer<? super A, ? super B> action) {
+        action.accept(first, second);
     }
 
     @Override
