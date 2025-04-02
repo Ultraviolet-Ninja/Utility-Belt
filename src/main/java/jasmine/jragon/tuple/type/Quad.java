@@ -1,5 +1,6 @@
 package jasmine.jragon.tuple.type;
 
+import jasmine.jragon.function.QuadConsumer;
 import jasmine.jragon.function.QuadFunction;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -42,6 +43,10 @@ public record Quad<A, B, C, D>(A first, B second, C third, D fourth) {
 
     public <T> T reduce(@NotNull QuadFunction<A, B, C, D, T> reduceFunction) {
         return reduceFunction.apply(first, second, third, fourth);
+    }
+
+    public void sendTo(@NotNull QuadConsumer<? super A, ? super B, ? super C, ? super D> action) {
+        action.accept(first, second, third, fourth);
     }
 
     @Contract(" -> new")
