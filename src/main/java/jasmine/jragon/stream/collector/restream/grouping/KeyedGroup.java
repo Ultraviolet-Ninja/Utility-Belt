@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor(staticName = "provide")
@@ -26,7 +28,15 @@ public final class KeyedGroup<T, K, V, C extends Collection<V>>
     private final Function<T, V> groupValueMapper;
     @NonNull
     private final Supplier<C> collectionSupplier;
+    @NonNull
+    private final UnaryOperator<C> collectionModifier;
+
     private final Stream.Builder<Duo<K, C>> runningGroupStream = Stream.builder();
+
+    private KeyedGroup(Function<T, K> groupKeyMapper, Function<T, V> groupValueMapper,
+                       Supplier<C> collectionSupplier) {
+        this(groupKeyMapper, groupValueMapper, collectionSupplier, UnaryOperator.identity());
+    }
 
     @Contract(pure = true)
     @Override
@@ -39,7 +49,7 @@ public final class KeyedGroup<T, K, V, C extends Collection<V>>
             } else {
                 C collection = collectionSupplier.get();
                 collection.add(value);
-                runningGroupStream.accept(new Duo<>(key, collection));
+                runningGroupStream.accept(new Duo<>(key, collectionModifier.apply(collection)));
                 map.put(key, collection);
             }
         };
@@ -58,13 +68,13 @@ public final class KeyedGroup<T, K, V, C extends Collection<V>>
 
     @Contract("_ -> new")
     public static <T, K> @NotNull KeyedGroup<T, K, T, List<T>> provide(Function<T, K> keyMapper) {
-        return new KeyedGroup<>(keyMapper, Function.identity(), ArrayList::new);
+        return new KeyedGroup<>(keyMapper, Function.identity(), ArrayList::new, Collections::unmodifiableList);
     }
 
     @Contract("_, _ -> new")
     public static <T, K, V> @NotNull KeyedGroup<T, K, V, List<V>> provide(Function<T, K> keyMapper,
                                                                           Function<T, V> valueMapper) {
-        return new KeyedGroup<>(keyMapper, valueMapper, ArrayList::new);
+        return new KeyedGroup<>(keyMapper, valueMapper, ArrayList::new, Collections::unmodifiableList);
     }
 
     @Contract("_, _ -> new")
@@ -73,21 +83,14 @@ public final class KeyedGroup<T, K, V, C extends Collection<V>>
         return new KeyedGroup<>(keyMapper, Function.identity(), collectionSupplier);
     }
 
-    @Contract("_, _, _ -> new")
-    public static <T, K, V, S extends Set<V>> @NotNull KeyedGroup<T, K, V, S> provideSet(Function<T, K> keyMapper,
-                                                                                         Function<T, V> valueMapper,
-                                                                                         Supplier<S> collectionSupplier) {
-        return new KeyedGroup<>(keyMapper, valueMapper, collectionSupplier);
-    }
-
     @Contract("_, _ -> new")
     public static <T, K, V> @NotNull KeyedGroup<T, K, V, Set<V>> provideSet(Function<T, K> keyMapper,
                                                                             Function<T, V> valueMapper) {
-        return new KeyedGroup<>(keyMapper, valueMapper, HashSet::new);
+        return new KeyedGroup<>(keyMapper, valueMapper, HashSet::new, Collections::unmodifiableSet);
     }
 
     @Contract("_ -> new")
     public static <T, K> @NotNull KeyedGroup<T, K, T, Set<T>> provideSet(Function<T, K> keyMapper) {
-        return new KeyedGroup<>(keyMapper, Function.identity(), HashSet::new);
+        return new KeyedGroup<>(keyMapper, Function.identity(), HashSet::new, Collections::unmodifiableSet);
     }
 }
