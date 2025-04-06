@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 import java.util.function.BiConsumer;
@@ -34,7 +33,7 @@ public final class SlidingWindow<T> implements StreamCheckpoint<T, List<T>> {
             }
 
             if (isFrontLoaded || runningQueue.size() == windowSize) {
-                listBuilder.add(new ArrayList<>(runningQueue));
+                listBuilder.add(List.copyOf(runningQueue));
             }
         };
     }
@@ -49,7 +48,7 @@ public final class SlidingWindow<T> implements StreamCheckpoint<T, List<T>> {
         return listBuilder -> {
             while (runningQueue.size() != 1) {
                 runningQueue.poll();
-                listBuilder.add(new ArrayList<>(runningQueue));
+                listBuilder.add(List.copyOf(runningQueue));
             }
             return listBuilder.build();
         };
