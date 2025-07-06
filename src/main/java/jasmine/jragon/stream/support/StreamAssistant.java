@@ -12,7 +12,7 @@ import static java.util.Spliterator.ORDERED;
 import static java.util.Spliterator.SIZED;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class SteamAssistant {
+public final class StreamAssistant {
     public static final int ORDERED_SIZED = SIZED | ORDERED;
 
     public static final int SORTED = Spliterator.SORTED | ORDERED;
