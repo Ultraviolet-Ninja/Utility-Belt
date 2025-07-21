@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Spliterator;
 import java.util.Spliterators;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -35,5 +36,10 @@ public final class StreamAssistant {
     public static <T> Stream<T> fromIteratorParallel(Iterable<T> typedIterable, int size, int characteristics) {
         var spliterator = Spliterators.spliterator(typedIterable.iterator(), size, characteristics | SIZED);
         return StreamSupport.stream(spliterator, true);
+    }
+
+    public static Stream<Character> streamChars(char[] chars) {
+        return IntStream.range(0, chars.length)
+                .mapToObj(i -> chars[i]);
     }
 }
